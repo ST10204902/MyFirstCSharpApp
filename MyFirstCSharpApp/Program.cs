@@ -6,108 +6,100 @@ using System.Threading.Tasks;
 
 namespace MyFirstCSharpApp
 {
-    internal class Program
+    internal class GymMember
     {
-        // Static variables to store user inputs and processed data in memory
-        static string fullName;
-        static string email;
-        static string workoutType;
-        static string firstName;
-        static string workoutPretty;
-        static string usernameSuggestion;
-        static bool hasValidEmailFormat;
-        static int? age;
+        // Variables to hold user input and processed data
 
-        static void Main(string[] args)
-        {
-            //Your first lines of code
-            //Replaces Java's System.out.println() method
-            Console.WriteLine("Hello World!");
+        public string FullName { get; set; }
+        public string Email { get; set; }
+        public string WorkoutType { get; set; }
+        public string FirstName { get; set; }
+        public string WorkoutPretty { get; set; }
+        public string UsernameSuggestion { get; set; }
+        public bool HasValidEmailFormat { get; set; }
+        public int? Age { get; set; }
 
-            Console.WriteLine("--- Gym Sign Up Form ---");
-
-            Console.Write("Enter your full name: ");
-            fullName = Console.ReadLine() ?? "";
-
-            Console.Write("Enter your email address: ");
-            email = Console.ReadLine() ?? "";
-
-            Console.Write("Favourite workout type (e.g., legs, cardio, push): ");
-            workoutType = Console.ReadLine() ?? "";
-
-            Console.WriteLine();
-            Console.WriteLine("Thanks. Processing your info...\n");
-
-            // Process the inputs using the defined methods
-            StringManipulation();
-            UsingVarAndImplictTypes();
-            UsingNullableTypes();
-            ProfileSummary();
-
-            
-        }
         /// <summary>
-        /// Performs string normalization and formatting for user-related fields such as full name, email, and workout
-        /// type.
+        /// Normalizes and formats user-related string properties, including full name, email, and workout type.
         /// </summary>
-        /// <remarks>Trims whitespace from input fields and converts email and workout type to lowercase.
-        /// The method also extracts the first name from the full name and formats the workout type for display. This
-        /// method should be called before using these fields to ensure consistent formatting.</remarks>
-        static void StringManipulation()
+        /// <remarks>This method trims whitespace from the FullName, Email, and WorkoutType properties,
+        /// converts Email and WorkoutType to lowercase, and updates FirstName and WorkoutPretty based on the processed
+        /// values. Call this method after setting the relevant properties to ensure consistent formatting.</remarks>
+        public void StringManipulation()
         {
-            fullName = fullName.Trim();
-            email = email.Trim().ToLower();
-            workoutType = workoutType.Trim().ToLower();
+            FullName = FullName.Trim();
+            Email = Email.Trim().ToLower();
+            WorkoutType = WorkoutType.Trim().ToLower();
 
-            string[] nameParts = fullName.Split(new[] { ' ' }, 
+            string[] nameParts = FullName.Split(new[] { ' ' },
                 StringSplitOptions.RemoveEmptyEntries);
-            firstName = nameParts.Length > 0 ? nameParts[0] : "Student";
+            FirstName = nameParts.Length > 0 ? nameParts[0] : "Student";
 
-            workoutPretty = workoutType.Length > 0
-                ? char.ToUpper(workoutType[0]) + workoutType.Substring(1)
+            WorkoutPretty = WorkoutType.Length > 0
+                ? char.ToUpper(WorkoutType[0]) + WorkoutType.Substring(1)
                 : "Unknown";
         }
 
-        static void UsingVarAndImplictTypes()
+        /// <summary>
+        /// Demonstrates the use of implicit typing with the var keyword and updates related properties based on the
+        /// current email and user information.
+        /// </summary>
+        /// <remarks>This method checks the format of the current email address and generates a username
+        /// suggestion based on the user's first name and workout type. It is intended for illustrative or internal use
+        /// to show how implicit typing can be used in C#.</remarks>
+        public void UsingVarAndImplictTypes()
         {
-            var emailAtIndex = email.IndexOf('@');
-            hasValidEmailFormat = emailAtIndex > 0 && email.Contains('.');
+            var emailAtIndex = Email.IndexOf('@');
+            HasValidEmailFormat = emailAtIndex > 0 && Email.Contains('.');
 
-            usernameSuggestion = firstName.ToLower() + "." + workoutType;
-            usernameSuggestion = usernameSuggestion.Replace(" ", "");
+            UsernameSuggestion = FirstName.ToLower() + "." + WorkoutType;
+            UsernameSuggestion = UsernameSuggestion.Replace(" ", "");
         }
 
-        static void UsingNullableTypes()
+        /// <summary>
+        /// Prompts the user to enter their age and updates the Age property with the entered value or null if no input
+        /// is provided.
+        /// </summary>
+        /// <remarks>If the user enters a valid integer, the Age property is set to that value. If the
+        /// input is empty or not a valid integer, Age is set to null. This method is intended for interactive console
+        /// applications.</remarks>
+        public void UsingNullableTypes()
         {
             Console.Write("Enter your age (optional, press Enter to skip): ");
             string ageInput = Console.ReadLine();
 
-            age = null;
+            Age = null;
 
             if (!string.IsNullOrWhiteSpace(ageInput))
             {
                 if (int.TryParse(ageInput, out int parsedAge))
                 {
-                    age = parsedAge;
+                    Age = parsedAge;
                 }
             }
         }
 
-        static void ProfileSummary()
+        /// <summary>
+        /// Displays a summary of the user's profile information to the console.
+        /// </summary>
+        /// <remarks>The summary includes the user's name, first name, email address, email format
+        /// validity, workout information, suggested username, and age if available. The method pauses execution and
+        /// waits for the user to press Enter before exiting.</remarks>
+        public void ProfileSummary()
         {
             Console.WriteLine();
             Console.WriteLine("=== Profile Summary ===");
 
-            Console.WriteLine($"Name: {fullName}");
-            Console.WriteLine($"First name: {firstName}");
-            Console.WriteLine($"Email: {email}");
-            Console.WriteLine($"Email format looks valid: {hasValidEmailFormat}");
-            Console.WriteLine($"Workout: {workoutPretty}");
-            Console.WriteLine($"Suggested username: {usernameSuggestion}");
+            Console.WriteLine($"Name: {FullName}");
+            Console.WriteLine($"First name: {FirstName}");
+            Console.WriteLine($"Email: {Email}");
+            Console.WriteLine($"Email format looks valid: {HasValidEmailFormat}");
+            Console.WriteLine($"Workout: {WorkoutPretty}");
+            Console.WriteLine($"Suggested username: {UsernameSuggestion}");
 
-            if (age.HasValue)
+            if (Age.HasValue)
             {
-                Console.WriteLine($"Age: {age.Value}");
+                Console.WriteLine($"Age: {Age.Value}");
             }
             else
             {
@@ -117,6 +109,38 @@ namespace MyFirstCSharpApp
             Console.WriteLine();
             Console.WriteLine("Press Enter to exit.");
             Console.ReadLine();
+        }
+    }
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            //Your first lines of code
+            //Replaces Java's System.out.println() method
+            Console.WriteLine("Hello World!");
+
+            Console.WriteLine("--- Gym Sign Up Form ---");
+
+            GymMember FirstGymMember = new GymMember();
+
+            Console.Write("Enter your full name: ");
+            FirstGymMember.FullName = Console.ReadLine() ?? "";
+
+            Console.Write("Enter your email address: ");
+            FirstGymMember.Email = Console.ReadLine() ?? "";
+
+            Console.Write("Favourite workout type (e.g., legs, cardio, push): ");
+            FirstGymMember.WorkoutType = Console.ReadLine() ?? "";
+
+            Console.WriteLine();
+            Console.WriteLine("Thanks. Processing your info...\n");
+
+            // Process the inputs using the defined methods
+            FirstGymMember.StringManipulation();
+            FirstGymMember.UsingVarAndImplictTypes();
+            FirstGymMember.UsingNullableTypes();
+            FirstGymMember.ProfileSummary();
         }
     }
 }
